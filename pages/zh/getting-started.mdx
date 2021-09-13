@@ -1,0 +1,148 @@
+import Page from "@reason/pages/Docs";
+import StatusBadge from "@reason/components/StatusBadge";
+import DocLink from "@reason/components/DocLink";
+export default Page({ title: "Getting Started" });
+
+# Getting Started 入门
+
+Welcome to Mina! This section will walk you through the process of setting up a Mina node. After we will show you how to generate a keypair for use with the network. Finally we'll show you how to connect to the network and begin producing blocks.
+
+欢迎来到 Mina！ 本节将引导您完成设置 Mina 节点的过程。之后我们将向您展示如何生成用于网络的密钥对。最后，我们将向您展示如何连接到网络并开始生产区块。
+
+<Alert>
+
+This documentation is for the **Mainnet** release.
+
+Network status: <StatusBadge service="Network" />
+
+本文档是针对 **主网** 版本。  
+网络状态：<StatusBadge service="Network" />
+
+</Alert>
+
+## Requirements 环境要求
+
+**Software**: macOS, Linux (currently supports Debian 9 and Ubuntu 18.04 LTS), or any host with Docker.
+
+**软件**：macOS、Linux（目前支持 Debian 9 和 Ubuntu 18.04 LTS）或任何带有 Docker 的主机。
+
+Note: Windows is not officially supported at this time. However, community members succeeded in setting up nodes using Windows Subsystem for Linux. Click [here](https://minawiki.com/index.php?title=Mina_on_Windows) for instructions on using Windows, which are created by the community. Additionally Windows users can use the Docker documentation.
+
+注意：目前不正式支持 Windows。 但是，有社区成员使用 Windows 的 Linux 子系统成功地设置了节点。 单击 [此处](https://minawiki.com/index.php?title=Mina_on_Windows) 获取使用 Windows 的说明，这些说明由社区创建。 此外，Windows 用户可以使用 Docker 文档。
+
+**Hardware**: Sending and receiving mina does not require any special hardware, but running a block producer on the Mina network currently requires:
+
+**硬件**：发送和接收 mina 不需要任何特殊硬件，但目前在 Mina 网络上运行块生产者需要：
+
+- at least a 8-core processor 至少8核处理器
+- at least 16GB of RAM 至少16GB内存
+
+Note that if you plan on running a snark worker node at the same time as a block producer, you may need more RAM. GPUs aren't currently required, but may be required for node operators when the protoctol is upgraded.
+
+请注意，如果您计划在作为块生产者的同时运行 snark 工作节点，则可能需要更多内存。当前不需要 GPU，但在后续协议升级时节点运行人员可能需要 GPU。
+
+**Network**: At least 1 Mbps connection
+**网络**：至少 1 Mbps 公网连接
+
+**VM Instances**:
+O(1) Labs has tested running nodes on several cloud providers, and recommends the following instances for basic node operator needs. Keep in mind that custom requirements as well as different cost constraints may require a different instance type.
+
+**虚拟机实例**：
+O(1) Labs 在多个云服务商上测试了运行节点，并针对节点运营商的基本需求推荐以下实例。 请记住，自定义要求以及不同的成本限制可能需要不同的实例类型。
+
+- AWS - [c5.2xlarge](https://www.ec2instances.info/?filter=c5.2xl&region=us-west-2&cost_duration=daily&selected=c5.2xlarge)
+- GCP - [c2-standard-8](https://cloud.google.com/compute/docs/machine-types)
+- Azure - [Standard_F8s_v2](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes-compute#fsv2-series-1)
+- Digital Ocean - [c-8-16gib](https://cloud.digitalocean.com/droplets/new?size=c-8-16gib)
+
+Check out our [guide](https://youtu.be/M9lE2lgyVEo) for how to configure your Mina node on Google Cloud.
+
+查看我们的 [指南](https://youtu.be/M9lE2lgyVEo)，了解如何在 Google Cloud 上配置您的 Mina 节点。
+
+## Installation 安装
+
+The newest binary releases can be found below. Instructions are provided for macOS and Linux below:
+
+This is a large download, around 1GB, so the install might take some time.
+
+最新的二进制版本可以在下面找到。下面为 macOS 和 Linux 上安装提供了说明：
+
+需下载的文件较大，大约 1GB，所以安装可能需要一些时间。
+
+<Alert kind="warning">
+
+If you installed `mina` from a previous release, you'll need to upgrade it so that you won't get banned by the network for using an older client. See instructions below for upgrading both macOS and Linux builds.
+
+如果您从以前的版本安装了 `mina`，则需要升级它，这样您就不会因为使用旧客户端而被网络禁止。有关升级 macOS 和 Linux 版本的信息，请参阅以下说明。
+
+</Alert>
+
+### Ubuntu 18.04 / Debian 9
+
+Add the Mina Debian repo and install:
+增加 Mina Debian 库并安装：
+
+```
+echo "deb [trusted=yes] http://packages.o1test.net release main" | sudo tee /etc/apt/sources.list.d/mina.list
+sudo apt-get update
+sudo apt-get install -y curl unzip mina-mainnet=1.1.5-a42bdee
+```
+
+Check that daemon installed correctly by running `mina version`. The output should read `Commit a42bdeef6b0c15ee34616e4df76c882b0c5c7c2a on branch master`.
+
+通过运行`mina version`来检查守护进程是否安装正确。输出应为 `Commit a42bdeef6b0c15ee34616e4df76c882b0c5c7c2a on branch master`。
+
+### Windows
+
+Windows is not yet natively supported. If you are interested in receiving a grant to develop Mina for Windows, please email grants@o1labs.org or reach out in the [Discord server](https://bit.ly/MinaDiscord).
+
+Windows 尚不受原生支持。如果您有兴趣获得为 Windows 开发 Mina 的资助，请发送电子邮件至 grants@o1labs.org 或联系 [Discord 服务器](https://bit.ly/MinaDiscord)。
+
+Please instead use the Docker instructions below.
+
+建议改用下面的 Docker 指引。
+
+### macOS
+
+macOS is used by developers, but we are not officially supporting any pre-built packages at this time.
+
+macOS 由开发人员使用，但我们目前不正式支持任何预构建包。
+
+Please instead use the Docker instructions below or you may build from source.
+
+请改为使用下面的 Docker 指引，或者您可以从源代码构建。
+
+### Docker
+
+Docker is cross-platform tool that allows you to run a virtual machine that will execute any needed software. Please follow the official installation instructions for your platform on [this page](https://docs.docker.com/get-docker/). Once docker is installed, proceed to the Mina Docker instructions on <DocLink copy="Connect to the Network" url="/using-mina/connecting" />
+
+Docker 是一个跨平台的工具，它允许你运行一个虚拟机来执行任何需要的软件。 请按照 [本页](https://docs.docker.com/get-docker/) 上针对您的平台的官方安装说明进行操作。 安装 docker 后，继续执行 <DocLink copy="Connect to the Network" url="/using-mina/connecting" /> 上的 Mina Docker 指引。
+
+### Build from source 从源码构建
+
+If you're running another Linux distro or some version of macOS, you can [try building Mina from source code](https://github.com/MinaProtocol/mina/blob/master/README-dev.md#building-mina). Please note that other operating systems haven't been tested thoroughly, and may have issues. Feel free to share any logs and get troubleshooting help in the [Discord server](https://bit.ly/MinaDiscord).
+
+如果您正在运行另一个 Linux 发行版或某个特定版本的 macOS，您可以 [尝试从源代码构建 Mina](https://github.com/MinaProtocol/mina/blob/master/README-dev.md#building-mina ）。请注意，其他操作系统尚未经过彻底测试，可能存在问题。您可随时在 [Discord 服务器](https://bit.ly/MinaDiscord) 中分享任何日志并获得故障排除帮助。
+
+## Set up port forwarding and any firewalls 设置端口转发和任意防火墙
+
+If you are running a firewall, you should allow traffic on TCP port 8302. Additionally, unless the `-external-ip YOUR_IP` flag is provided, the daemon will use HTTPS (443) and HTTP (80) to try and determine its own IP address.
+
+如果您正在运行防火墙，您应该允许 TCP 端口 8302 上的流量。此外，除非提供了 `-external-ip YOUR_IP` 标志，守护进程将尝试使用 HTTPS (443) 和 HTTP (80) 端口，以及由它自己确定自己的 IP 地址。
+
+You may need to configure your router's port forwarding to allow inbound traffic to the following ports through your **external** IP address.
+
+您可能需要配置路由器的端口转发，以允许通过您的 **外部** IP 地址到以下端口的入站流量。
+
+- `TCP` port `8302` `TCP` 端口 `8302` 
+- _Optionally_ to use the GraphQL service, expose `TCP` port `3085` _可选的_ 要使用 GraphQL 服务，暴露 `TCP` 端口 `3085` 
+
+For walk-through instructions see <DocLink copy="this guide" url="/troubleshooting#port-forwarding" />. 
+
+有关演练指引，请参阅 <DocLink copy="this guide" url="/troubleshooting#port-forwarding" />。
+
+## Next 下一步
+
+Now that you've installed Mina and configured your network, let's move on to the next step - <DocLink copy="generating a keypair!" url="/using-mina/keypair" />
+
+现在您已经安装了 Mina 并配置了您的网络，让我们继续下一步 - <DocLink copy="生成密钥对！" url="/using-mina/keypair" />
